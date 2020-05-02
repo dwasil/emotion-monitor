@@ -4,7 +4,7 @@ from src.source.base import Base as BaseSource
 from src.processor.processor import Processor
 
 from src.out.base import Base as BaseOut
-from src.out.console import Console as ConsoleOut
+from src.out.image import Image as ImageOut
 
 
 class Application:
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     app = Application(
         ConsoleSource('../sample_data/screenshot.png'),
         Processor(),
-        ConsoleOut()
+        ImageOut()
     )
 
     app.run()
