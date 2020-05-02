@@ -31,10 +31,11 @@ if __name__ == "__main__":
 
     app = Application(
 
-        #ImageSource('../sample_data/screenshot.png'),
-        VideoSource('../sample_data/sample.mp4'),
+        # ImageSource('../sample_data/screenshot.png'),
+        VideoSource('../sample_data/sample2.mp4'),
+        # VideoSource('/dev/video0'),
         Processor(),
-        #ImageOut()
+        # ImageOut()
         VideoOut()
     )
 
