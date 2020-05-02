@@ -6,6 +6,7 @@ from src.processor.processor import Processor
 from src.out.base import Base as BaseOut
 from src.out.image import Image as ImageOut
 
+
 class Application:
 
     def __init__(self, source: BaseSource, processor: Processor, out: BaseOut):
@@ -17,7 +18,6 @@ class Application:
         frame = self._source.get_current_frame()
         result_data = self._processor.process(frame)
         self._out.show_result(result_data)
-
 
 if __name__ == "__main__":
 
