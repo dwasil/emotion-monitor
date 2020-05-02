@@ -6,7 +6,6 @@ from src.processor.processor import Processor
 from src.out.base import Base as BaseOut
 from src.out.image import Image as ImageOut
 
-
 class Application:
 
     def __init__(self, source: BaseSource, processor: Processor, out: BaseOut):
@@ -29,3 +28,4 @@ if __name__ == "__main__":
     )
 
     app.run()
+
