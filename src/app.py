@@ -1,5 +1,6 @@
 from src.source.image import Image as ImageSource
 from src.source.video import Video as VideoSource
+from src.source.application_window import ApplicationWindow as ApplicationWindowSource
 from src.source.base import Base as BaseSource
 
 from src.processor.processor import Processor
@@ -32,14 +33,15 @@ if __name__ == "__main__":
     app = Application(
 
         # ImageSource('../sample_data/screenshot.png'),
-        VideoSource('../sample_data/sample2.mp4'),
-        # VideoSource('/dev/video0'),
+        # VideoSource('../sample_data/sample2.mp4'),
+        # VideoSource('/dev/video0')
+        ApplicationWindowSource(),
         Processor(),
         # ImageOut()
         VideoOut()
     )
 
-    while (True):
+    while True:
         app.run()
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
