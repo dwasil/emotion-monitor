@@ -9,6 +9,8 @@ from src.out.base import Base as BaseOut
 from src.out.image import Image as ImageOut
 from src.out.video import Video as VideoOut
 import cv2
+from src.sys.windows_enumerator import WindowsEnumerator
+from src.gui.target_choose_dialog import TargetChooseDialog
 
 
 class Application:
@@ -30,12 +32,16 @@ class Application:
 
 if __name__ == "__main__":
 
-    app = Application(
 
+    app = Application(
         # ImageSource('../sample_data/screenshot.png'),
         # VideoSource('../sample_data/sample2.mp4'),
         # VideoSource('/dev/video0')
-        ApplicationWindowSource(),
+        ApplicationWindowSource(
+            TargetChooseDialog(
+                WindowsEnumerator()
+            )
+        ),
         Processor(),
         # ImageOut()
         VideoOut()

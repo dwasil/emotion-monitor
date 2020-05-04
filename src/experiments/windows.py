@@ -34,6 +34,8 @@ def print_win_list(win, indent):
                 print(indent + str(name))
                 print(win.get_attributes())
                 print(geometry)
+                print(win.list_properties())
+
 
                 print("\n\n")
 
