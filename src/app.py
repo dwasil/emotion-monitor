@@ -21,9 +21,16 @@ class Application:
         self._out = out
 
     def run(self):
+        print('run')
         frame = self._source.get_current_frame()
+        print(frame)
+
+        if frame is None:
+            return
+
         result_data = self._processor.process(frame)
         self._out.show_result(result_data)
+        print('run out')
 
     def destroy(self):
         self._source.destroy()
@@ -31,7 +38,6 @@ class Application:
 
 
 if __name__ == "__main__":
-
 
     app = Application(
         # ImageSource('../sample_data/screenshot.png'),
@@ -49,7 +55,7 @@ if __name__ == "__main__":
 
     while True:
         app.run()
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        if cv2.waitKey(100) & 0xFF == ord('q'):
             break
 
     app.destroy()
