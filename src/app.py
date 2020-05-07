@@ -8,6 +8,8 @@ from src.processor.processor import Processor
 from src.out.base import Base as BaseOut
 from src.out.image import Image as ImageOut
 from src.out.video import Video as VideoOut
+from src.out.application_window import ApplicationWindow as ApplicationWindowOut
+
 import cv2
 from src.sys.windows_enumerator import WindowsEnumerator
 from src.gui.target_choose_dialog import TargetChooseDialog
@@ -21,41 +23,44 @@ class Application:
         self._out = out
 
     def run(self):
-        print('run')
+
         frame = self._source.get_current_frame()
-        print(frame)
 
         if frame is None:
             return
 
         result_data = self._processor.process(frame)
         self._out.show_result(result_data)
-        print('run out')
 
     def destroy(self):
         self._source.destroy()
         self._out.destroy()
 
 
-if __name__ == "__main__":
-
+def run_application(window):
     app = Application(
         # ImageSource('../sample_data/screenshot.png'),
         # VideoSource('../sample_data/sample2.mp4'),
         # VideoSource('/dev/video0')
-        ApplicationWindowSource(
-            TargetChooseDialog(
-                WindowsEnumerator()
-            )
-        ),
+        ApplicationWindowSource(window),
         Processor(),
         # ImageOut()
-        VideoOut()
+        ApplicationWindowOut(window)
     )
 
     while True:
         app.run()
-        if cv2.waitKey(100) & 0xFF == ord('q'):
+        if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
     app.destroy()
+
+
+if __name__ == "__main__":
+
+    target = TargetChooseDialog(
+        WindowsEnumerator(),
+        run_application
+    )
+
+    target.show()

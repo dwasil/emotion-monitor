@@ -5,7 +5,7 @@ from ..sys.windows_enumerator import WindowsEnumerator
 
 class TargetChooseDialog:
 
-    def __init__(self, windows_enumerator: WindowsEnumerator):
+    def __init__(self, windows_enumerator: WindowsEnumerator, on_choose_cb):
         self._windows_enumerator = windows_enumerator
         self._dialog = tk.Tk()
         self._dialog.geometry('300x100')
@@ -15,18 +15,12 @@ class TargetChooseDialog:
         self._windows_list_combo = ttk.Combobox(self._dialog, values=[])
         self._windows_list_combo.grid(column=0, row=1)
         tk.Button(self._dialog, text="Choose", command=self._choose_command).grid(column=0, row=2)
-        self._on_window_changer_cb = None
+        self._on_choose_cb = on_choose_cb
 
     def _choose_command(self):
-        print('_choose_command')
         window = self._windows_enumerator.get_window_by_index(self._windows_list_combo.current())
-        print(window)
-        print(self._on_window_changer_cb)
-
-        if self._on_window_changer_cb is not None:
-            self._on_window_changer_cb(window)
-
-       # self._dialog.destroy()
+        self._on_choose_cb(window)
+        self._dialog.destroy()
 
     def _get_windows_list(self):
         result = []
@@ -36,7 +30,6 @@ class TargetChooseDialog:
             result.append(inst)
         return result
 
-    def show(self, on_window_changed_cb):
-        self._on_window_changer_cb = on_window_changed_cb
+    def show(self):
         self._windows_list_combo['values'] = self._get_windows_list()
         self._dialog.mainloop()
