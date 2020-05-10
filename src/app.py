@@ -38,6 +38,7 @@ class Application:
 
 
 def run_application(window):
+
     app = Application(
         # ImageSource('../sample_data/screenshot.png'),
         # VideoSource('../sample_data/sample2.mp4'),
@@ -59,7 +60,6 @@ def run_application(window):
 if __name__ == "__main__":
 
     target = TargetChooseDialog(
-        WindowsEnumerator(),
         run_application
     )
 

@@ -1,12 +1,25 @@
 from Xlib import display, X
-
+import time
 
 class WindowsEnumerator:
 
     def __init__(self):
         self._windows_list = []
         disp = display.Display()
+
+        time.sleep(5)
+        
+        res = disp.screen().root.query_pointer()
+        window = res.child
+        print(window.id)
+        d = display.Display()
+        gc = window.create_gc()
+        window.draw_text(gc, 200, 200, str.encode(str(window.id)))  # changed the coords more towards the center
+        window.rectangle(gc, 100, 100, 100, 100, onerror=None)
+        d.flush()
+
         self._init_windows_list(disp.screen().root)
+
 
     def get_windows_list(self):
         return self._windows_list
@@ -24,6 +37,17 @@ class WindowsEnumerator:
 
     def _is_window_compatible(self, window) -> bool:
 
+        d = display.Display()
+        gc = window.create_gc()
+
+        if gc:
+            if window.id == 85983364:
+                a = 1
+
+            window.draw_text(gc, 220, 220, str.encode(str(window.id)))  # changed the coords more towards the center
+            window.rectangle(gc, 100, 100, 100, 100, onerror=None)
+            d.flush()  # To actually send the request to the server
+
         attrs = window.get_attributes()
         if attrs.map_state != X.IsViewable:
             return False
@@ -33,7 +57,6 @@ class WindowsEnumerator:
             return False
 
         win_class = window.get_wm_class()
-
         if win_class is None:
             return False
 
