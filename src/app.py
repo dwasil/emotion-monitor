@@ -9,6 +9,7 @@ from src.out.base import Base as BaseOut
 from src.out.image import Image as ImageOut
 from src.out.video import Video as VideoOut
 from src.out.application_window import ApplicationWindow as ApplicationWindowOut
+from src.out.application_twindow import ApplicationTWindow as ApplicationTWindowOut
 
 import cv2
 from src.sys.windows_enumerator import WindowsEnumerator
@@ -30,6 +31,7 @@ class Application:
             return
 
         result_data = self._processor.process(frame)
+
         self._out.show_result(result_data)
 
     def destroy(self):
@@ -46,7 +48,7 @@ def run_application(window):
         ApplicationWindowSource(window),
         Processor(),
         # ImageOut()
-        ApplicationWindowOut(window)
+        ApplicationTWindowOut(window)
     )
 
     while True:

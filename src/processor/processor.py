@@ -33,5 +33,5 @@ class Processor:
             emotion_id = self.predict_emotion(gray_frame[y:y + h, x:x + w])
             result.append((x, y, w, h, emotion_id))
 
-        print("Process time: " + str(datetime.now() - start_time) + "\n")  ###
+        # print("Process time: " + str(datetime.now() - start_time) + "\n")  ###
         return result

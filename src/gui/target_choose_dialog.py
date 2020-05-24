@@ -11,24 +11,13 @@ class TargetChooseDialog:
         res = None
         attrs = window.get_attributes()
 
-        print('_init_windows_list')
-        print(window.id)
-        print(attrs)
-
-        gc = window.create_gc(
-            line_width=4,
-            foreground=62740  # green 62740
-        )
-        window.draw_text(gc, 100, 100, str.encode(str(window.id)))
-
         if attrs.map_is_installed == 0 and attrs.map_state == X.IsViewable:
-            res = window
+            return window
 
         for child in window.query_tree().children:
-            tmp_res = self._init_windows_list(child)
-
-            if tmp_res:
-                res = tmp_res
+            res = self._init_windows_list(child)
+            if res:
+                break
 
         return res
 
@@ -43,11 +32,7 @@ class TargetChooseDialog:
             if event:
                 disp.ungrab_pointer(X.CurrentTime)
                 res = root.query_pointer()
-
                 window = self._init_windows_list(res.child)
-                print('def show(self):')
-                print(window.id)
-                #exit(1)
                 self._on_choose_cb(window)
                 break
 
