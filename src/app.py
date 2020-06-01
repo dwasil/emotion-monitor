@@ -22,6 +22,7 @@ class Application:
         self._source = source
         self._processor = processor
         self._out = out
+        self._out2 = ImageOut()
 
     def run(self):
 

@@ -16,6 +16,7 @@ class WindowGTK(Gtk.Window):
         self.screen = self.get_screen()
         self.visual = self.screen.get_rgba_visual()
         self.rectangles = []
+        self.base = [x, y]
 
         if self.visual is not None and self.screen.is_composited():
             self.set_visual(self.visual)
@@ -35,9 +36,14 @@ class WindowGTK(Gtk.Window):
         cr.paint()
         cr.set_operator(cairo.OPERATOR_OVER)
 
+        pos = self.get_position()
+        size = self.get_size()
+        offset_x = self.base[0] - pos[0]
+        offset_y = self.base[1] - pos[1]
+
         if len(self.rectangles) > 0:
             for rec in self.rectangles:
-                self.draw_rectangle(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], cr)
+                self.draw_rectangle(rec[0] + offset_x, rec[1] + offset_y, rec[2], rec[3], rec[4], rec[5], cr)
 
     def draw_rectangle(self, x, y, width, height, text, color, cr):
         r, g, b, tr = color

@@ -1,5 +1,4 @@
 import cv2
-from datetime import datetime
 import numpy as np
 from deepface.extendedmodels import Emotion
 from tensorflow.keras.preprocessing.image import img_to_array
@@ -23,9 +22,8 @@ class Processor:
         return int(np.argmax(emotion_predictions))
 
     def process(self, frame):
-
         result = []
-        start_time = datetime.now() ###
+
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces_data = self.detect_faces(gray_frame)
 
@@ -33,5 +31,4 @@ class Processor:
             emotion_id = self.predict_emotion(gray_frame[y:y + h, x:x + w])
             result.append((x, y, w, h, emotion_id))
 
-        # print("Process time: " + str(datetime.now() - start_time) + "\n")  ###
         return result
