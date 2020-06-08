@@ -11,7 +11,7 @@ class EmotionMap:
         ['sad', _RGB(76, 0, 153)],
         ['surprise', _RGB(51, 153, 255)],
         ['neutral', _RGB(128, 128, 128)],
-        ['unknown', _RGB(0, 0, 0)]
+        ['unknown', _RGB(255, 255, 255)]
     ]
 
     map2 = [
@@ -22,5 +22,5 @@ class EmotionMap:
         ['sad', [0.3, 0, 0.6, 1]],
         ['surprise', [0.2, 0.6, 1, 1]],
         ['neutral', [0.5, 0.5, 0.5, 1]],
-        ['unknown', [0, 0, 0, 1]]
+        ['unknown', [255, 255, 255, 1]]
     ]

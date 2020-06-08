@@ -13,13 +13,18 @@ class Processor:
         return self._face_cascade.detectMultiScale(gray_frame, 1.2, 4)
 
     def predict_emotion(self, face_frame):
+        emotion_id = 7
         roi_gray = cv2.resize(face_frame, (48, 48), interpolation=cv2.INTER_AREA)
         roi = roi_gray.astype("float") / 255.0
         roi = img_to_array(roi)
         roi = np.expand_dims(roi, axis=0)
         emotion_model = Emotion.loadModel()
         emotion_predictions = emotion_model.predict(roi)[0, :]
-        return int(np.argmax(emotion_predictions))
+
+        if np.max(emotion_predictions) > 0.7:
+            emotion_id = int(np.argmax(emotion_predictions))
+
+        return emotion_id
 
     def process(self, frame):
         result = []
