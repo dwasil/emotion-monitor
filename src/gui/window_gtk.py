@@ -2,11 +2,9 @@
 
 import cairo
 import gi
-import threading
 
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-
 
 class WindowGTK(Gtk.Window):
     def __init__(self, x, y, width, height):
@@ -26,24 +24,25 @@ class WindowGTK(Gtk.Window):
         self.connect("destroy", lambda x: exit())
         self.show_all()
 
+
     def show(self):
-        thread = threading.Thread(target=Gtk.main)
-        thread.start()
+        self.show_all()
+        self.set_opacity(0.5)
+
+    def get_geometry(self):
+        position = self.get_position()
+        size = self.get_size()
+        return position[0], position[1], size[0], size[1]
 
     def area_draw(self, widget, cr):
-        cr.set_source_rgba(.1, .1, .1, 0.1)
+        cr.set_source_rgba(.1, .1, .1, 0.3)
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
         cr.set_operator(cairo.OPERATOR_OVER)
 
-        pos = self.get_position()
-        size = self.get_size()
-        offset_x = self.base[0] - pos[0]
-        offset_y = self.base[1] - pos[1]
-
         if len(self.rectangles) > 0:
             for rec in self.rectangles:
-                self.draw_rectangle(rec[0] + offset_x, rec[1] + offset_y, rec[2], rec[3], rec[4], rec[5], cr)
+                self.draw_rectangle(rec[0] , rec[1], rec[2], rec[3], rec[4], rec[5], cr)
 
     def draw_rectangle(self, x, y, width, height, text, color, cr):
         r, g, b, tr = color
@@ -62,10 +61,12 @@ class WindowGTK(Gtk.Window):
 if __name__ == "__main__":
 
     win = WindowGTK(300, 300, 600, 600)
-    win.show()
     win.rectangles = [
         [30, 30, 100, 100, 'text1', [1, 1, 1, 1]],
         [120, 120, 200, 200, 'text2', [0, 0, 0, 1]]
     ]
 
     win.queue_draw()
+    Gtk.main()
+
+
