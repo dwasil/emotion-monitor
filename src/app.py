@@ -4,7 +4,6 @@ from src.source.screen_area import ScreenArea
 from src.processor.processor import Processor
 
 from src.out.base import Base as BaseOut
-from src.out.application_window import ApplicationWindow as ApplicationWindowOut
 from src.out.application_twindow import ApplicationTWindow as ApplicationTWindowOut
 from src.gui.window_gtk import WindowGTK
 
@@ -18,20 +17,26 @@ from gi.repository import Gtk, GObject
 
 class Application:
 
+
     def __init__(self, source: BaseSource, processor: Processor, out: BaseOut):
         self._source = source
         self._processor = processor
         self._out = out
+        self.is_running = False
 
     def run(self):
-        print('run')
-        frame = self._source.get_current_frame()
+        if not self.is_running:
+            self.is_running = True
+            frame = self._source.get_current_frame()
 
-        if frame is None:
-            return
+            if frame is None:
+                return
 
-        result_data = self._processor.process(frame)
-        self._out.show_result(result_data)
+            result_data = self._processor.process(frame)
+            self._out.show_result(result_data)
+            self.is_running = False
+
+        return True
 
     def destroy(self):
         self._source.destroy()
@@ -47,9 +52,7 @@ def run_application(x, y, width, height):
         ApplicationTWindowOut(window)
     )
 
-    GObject.timeout_add(300, app.run)
-    loop = GObject.MainLoop()
-    loop.run()
+    GObject.timeout_add(1000, app.run)
     Gtk.main()
     return 0
 

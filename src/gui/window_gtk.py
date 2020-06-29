@@ -15,6 +15,7 @@ class WindowGTK(Gtk.Window):
         self.visual = self.screen.get_rgba_visual()
         self.rectangles = []
         self.base = [x, y]
+        self.y_offset = 20
 
         if self.visual is not None and self.screen.is_composited():
             self.set_visual(self.visual)
@@ -48,7 +49,7 @@ class WindowGTK(Gtk.Window):
         r, g, b, tr = color
         cr.set_source_rgba(r, g, b, tr)
         cr.set_line_width(3)
-        cr.rectangle(x, y, width, height)
+        cr.rectangle(x, y - self.y_offset, width, height)
         cr.set_line_join(cairo.LINE_JOIN_BEVEL)
         cr.stroke()
 
