@@ -1,6 +1,7 @@
 from .base import Base
 from .emotion_map import EmotionMap
 
+
 class ApplicationTWindow(Base):
 
     def __init__(self, window):
@@ -15,6 +16,7 @@ class ApplicationTWindow(Base):
             for item_data in data:
                 x, y, w, h, emotion_id = item_data
 
-                self._window.rectangles.append([x, y, w, h, EmotionMap.map2[emotion_id][0], EmotionMap.map2[emotion_id][1]])
+                self._window.rectangles.append(
+                    [x, y, w, h, EmotionMap.map2[emotion_id][0], EmotionMap.map2[emotion_id][1]])
 
             self._window.queue_draw()

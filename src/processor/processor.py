@@ -3,11 +3,14 @@ import numpy as np
 from deepface.extendedmodels import Emotion
 from tensorflow.keras.preprocessing.image import img_to_array
 
+from .base import Base
 
-class Processor:
+
+class Processor(Base):
 
     def __init__(self):
-        self._face_cascade = cv2.CascadeClassifier('/home/user/PycharmProjects/empathy_assistant/resources/haarcascade_frontalface_default.xml')
+        self._face_cascade = cv2.CascadeClassifier(
+            '/home/user/PycharmProjects/empathy_assistant/resources/haarcascade_frontalface_default.xml')
 
     def detect_faces(self, gray_frame):
         return self._face_cascade.detectMultiScale(gray_frame, 1.2, 4)
@@ -21,7 +24,7 @@ class Processor:
         emotion_model = Emotion.loadModel()
         emotion_predictions = emotion_model.predict(roi)[0, :]
 
-        if np.max(emotion_predictions) > 0.7:
+        if np.max(emotion_predictions) > 0.8:
             emotion_id = int(np.argmax(emotion_predictions))
 
         return emotion_id

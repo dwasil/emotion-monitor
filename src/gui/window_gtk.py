@@ -1,21 +1,20 @@
-#!/usr/bin/env python
-
 import cairo
 import gi
 
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
+
 class WindowGTK(Gtk.Window):
     def __init__(self, x, y, width, height):
-        Gtk.Window.__init__(self, title = "Empathy Assistant")
+        Gtk.Window.__init__(self, title="Emotions monitor")
         self.move(x, y)
         self.resize(width, height)
         self.screen = self.get_screen()
         self.visual = self.screen.get_rgba_visual()
         self.rectangles = []
         self.base = [x, y]
-        self.y_offset = 20
+        self.y_offset = 25
 
         if self.visual is not None and self.screen.is_composited():
             self.set_visual(self.visual)
@@ -24,7 +23,6 @@ class WindowGTK(Gtk.Window):
         self.connect("draw", self.area_draw)
         self.connect("destroy", lambda x: exit())
         self.show_all()
-
 
     def show(self):
         self.show_all()
@@ -43,7 +41,7 @@ class WindowGTK(Gtk.Window):
 
         if len(self.rectangles) > 0:
             for rec in self.rectangles:
-                self.draw_rectangle(rec[0] , rec[1], rec[2], rec[3], rec[4], rec[5], cr)
+                self.draw_rectangle(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], cr)
 
     def draw_rectangle(self, x, y, width, height, text, color, cr):
         r, g, b, tr = color
@@ -60,7 +58,6 @@ class WindowGTK(Gtk.Window):
 
 
 if __name__ == "__main__":
-
     win = WindowGTK(300, 300, 600, 600)
     win.rectangles = [
         [30, 30, 100, 100, 'text1', [1, 1, 1, 1]],
@@ -69,5 +66,3 @@ if __name__ == "__main__":
 
     win.queue_draw()
     Gtk.main()
-
-
